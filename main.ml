@@ -1,6 +1,5 @@
 (* Nous ne sommes pas parvenus à compiler ce fichier avec ocamlc en incluant ses librairies *)
-(* L'encodage est fonctionnel *)
-(* En décommentant le bloque suivant, le programme est testable dans l'interpreteur *)
+(* Pour afficher les images veuillez décommenter la dernière partie du code *)
 
 #directory "/usr/lib/ocaml/lablgtk2/";;
 #load "lablgtk.cma";;
@@ -23,6 +22,7 @@ let zero=num_of_int 0;;
 let deux=num_of_int 2;;
 let un=num_of_int 1;;
 
+(*Fonction transformant une image en une matrice d'entier*)
 let transformation img =
   let w, h = (img#width, img#height) in
   let img_mat = (Array.make_matrix w h 0) in
@@ -35,6 +35,7 @@ let transformation img =
     img_mat
 ;;
 
+(*Fonction transformant un tableau de type (int * int * int) Array Array en une matrice d'entier*)
 let transformation_apres_cryptage tabRGB largeur longueur =
   let img_mat = (Array.make_matrix largeur longueur 0) in
     for i = 0 to (largeur - 1) do
@@ -75,6 +76,7 @@ let rec miroir l=
   | [] -> []
   | t::q -> (miroir q)@[t];;
 
+(*Fonction permettant de mettre en base 10 une liste binaire*)
 let b10 l=
 let rec bas l i m=
     if(i=62) then (List.nth l i)
@@ -172,12 +174,6 @@ let li= List.length l in
 let need= 63-li in
 (makeList ([]) need)@l;;
 
-(*
-let rec print_list = function
-[] -> ()
-| e::l -> print_int e ; print_string " " ; print_list l
-*)
-
 
 
 (*dimensions de l’image a construire*)
@@ -195,16 +191,21 @@ let test_decryptage = (decryptage test_cryptage hauteur largeur);;
 let img_crypte = (transformation_apres_cryptage test_cryptage hauteur largeur);;
 
 
+(* Dernière partie du code servant à afficher les images *)
 
 (*
-(*ouverture d’une fenetre graphiqueavec les dimensions de l’image*)
+(*ouverture d’une fenetre graphique avec les dimensions de l’image*)
 Graphics.open_graph (" "^(string_of_int largeur)^"x"^(string_of_int hauteur)) ;;
 (*etablissement du texte du bandeau de cette fenetre*)
-Graphics.set_window_title "Mon image" ;;
+Graphics.set_window_title "Projet 21 - Steganographie" ;;
 
 (*Affiche l'image en sortie sur la fenêtre graphique*)
+(*Affichage de l'image cryptée*)
 let image_sortie = Graphics.make_image img_crypte;;
+(*Affichage de l'image initiale*)
+(*
 let image_sortie = Graphics.make_image img;;
-(*dessin de l’image dans la fenetre graphiquedepuis le coin inferieur gauche*)
+*)
+(*dessin de l’image dans la fenetre graphique depuis le coin inferieur gauche*)
 Graphics.draw_image image_sortie 0 0 ;;
 *)
